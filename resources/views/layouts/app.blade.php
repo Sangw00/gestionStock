@@ -6,6 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -73,7 +74,20 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+        <div class="card">
+                <div class="card-header">{{ __('Dashboard') }}</div>
+
+                <div class="card-body">
+                    <div classname="col-6">
+                        <a href="{{route("category.index")}}">all categories</a>
+                        <a href="{{}}">all products</a>
+                    </div>
+                    <div classname="col-6">
+                    @yield('content')
+                    </div>
+        </div>
+    </div>
+            
         </main>
     </div>
 </body>
