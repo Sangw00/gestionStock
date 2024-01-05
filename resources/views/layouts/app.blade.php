@@ -74,19 +74,7 @@
         </nav>
 
         <main class="py-4">
-        <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    <div classname="col-6">
-                        <a href="{{route("category.index")}}">all categories</a>
-                        <a href="{{}}">all products</a>
-                    </div>
-                    <div classname="col-6">
-                    @yield('content')
-                    </div>
-        </div>
-    </div>
+        @yield("content")
             
         </main>
     </div>
