@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 Route::get("/category",[App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
+Route::get("/category/new",[App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

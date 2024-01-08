@@ -10,7 +10,7 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    { 
         $categories =Category::all();
         return view("category.index")->with("categories", $categories);
     }
@@ -20,7 +20,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view("category.create");
     }
 
     /**
