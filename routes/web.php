@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
-Route::get("/category",[App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
-Route::get("/category/new",[App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
+
+Route::get("/categories",[App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
+Route::get("/categories/new",[App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
+Route::post("/categories/new/store",[App\Http\Controllers\CategoryController::class, 'store'])->name('category.store');
+Route::get("/categories/{id}/edit",[App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
+
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

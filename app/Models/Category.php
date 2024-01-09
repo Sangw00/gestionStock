@@ -12,4 +12,11 @@ class Category extends Model
         'name',
         'description',
     ];
+    public static function validate($request)
+    {
+       return $request->validate([
+            "name" => "required|max:255",
+            "description" => "required",
+        ]);
+    }
 }

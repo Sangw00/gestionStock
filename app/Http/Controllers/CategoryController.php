@@ -28,7 +28,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $category=Category::validate($request);
+         Category::create($category);
+
+
+         return redirect("/categories");
     }
 
     /**
@@ -36,7 +40,8 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        Category::findOrFail($id);
+        return view("category.edit");
     }
 
     /**
