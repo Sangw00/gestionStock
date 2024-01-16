@@ -1,6 +1,6 @@
 @extends("layouts.home")
 @section("content")
-<form  method="POST">
+<form  method="POST" action="{{route("category.update", ["id" => $category->id])}}">
   @csrf <!-- Add CSRF token for security -->
   <div class="container">
     <div class="card">
@@ -8,11 +8,11 @@
       <div class="card-body">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" class="form-control" id="name" name="name" placeholder="Ex: tech/sports/education ...etc">
+          <input type="text" class="form-control" value="{{$category->name}}" id="name" name="name" placeholder="Ex: tech/sports/education ...etc">
         </div>
         <div class="form-group">
           <label for="description">Description</label>
-          <input type="text" class="form-control" id="description" name="description" placeholder="Add a description to your category">
+          <input type="text" class="form-control" value="{{$category->description}}" id="description" name="description" placeholder="Add a description to your category">
         </div>
         <button type="submit" class="btn btn-outline-secondary">Edit</button>
       </div>

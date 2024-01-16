@@ -16,9 +16,21 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get("/categories",[App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
-Route::get("/categories/new",[App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
-Route::post("/categories/new/store",[App\Http\Controllers\CategoryController::class, 'store'])->name('category.store');
-Route::get("/categories/{id}/edit",[App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
 
+Route::middleware('auth')->group(function () {
+
+
+    Route::get("/categories",[App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
+    Route::get("/categories/new",[App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
+    Route::post("/categories/new/store",[App\Http\Controllers\CategoryController::class, 'store'])->name('category.store');
+    Route::get("/categories/{id}/show",[App\Http\Controllers\CategoryController::class, 'show'])->name('category.show');
+    Route::get("/categories/{id}/edit",[App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
+    Route::post("/categories/{id}/edit/store",[App\Http\Controllers\CategoryController::class, 'update'])->name('category.update');
+    Route::get("/categories/{id}/delete",[App\Http\Controllers\CategoryController::class, 'destroy'])->name('category.delete');
+
+    Route::get("/products",[App\Http\Controllers\ProductController::class, 'index'])->name('product.index');
+    Route::get("/products/new",[App\Http\Controllers\ProductController::class, 'create'])->name('product.create');
+
+    
+});
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

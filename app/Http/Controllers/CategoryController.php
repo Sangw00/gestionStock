@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class CategoryController extends Controller
 {
@@ -30,8 +32,6 @@ class CategoryController extends Controller
     {
          $category=Category::validate($request);
          Category::create($category);
-
-
          return redirect("/categories");
     }
 
@@ -40,8 +40,16 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        Category::findOrFail($id);
-        return view("category.edit");
+        $category=Category::findOrFail($id);
+        $products = DB::table('products')
+        ->join('categories', 'products.category_id', '=', 'categories.id')
+        ->where('categories.id', $category->id)
+        ->select('products.*')
+        ->get();
+        return view("category.show", [
+            'products' => $products,
+            'category' => $category,
+        ]);
     }
 
     /**
@@ -49,7 +57,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category=Category::findOrFail($id);
+        return view("category.edit")->with("category",$category);
     }
 
     /**
@@ -57,7 +66,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category=Category::findOrFail($id);
+        $request=Category::validate($request);
+        $category->fill( $request);
+        $category->save();
+
+
+        return redirect("/categories");
     }
 
     /**
@@ -65,6 +80,8 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Category::Destroy($id);
+        return back();
+        
     }
 }

@@ -85,10 +85,10 @@
       <hr />
       <ul class="nav flex-column">
         <li><a href="{{route("category.index")}}" class="nav-link text-white">Categories</a></li>
-        <li><a href="" class="nav-link text-white">Products</a></li>
+        <li><a href="{{route("product.index")}}" class="nav-link text-white">Products</a></li>
         
         <li>
-          <a href="" class="mt-2 btn bg-white text-black">Go back to the home page</a>
+          <a href="/" class="mt-2 btn bg-white text-black">Go back to the home page</a>
         </li>
       </ul>
     </div>
