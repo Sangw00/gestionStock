@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -20,7 +22,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view("product.create");
+        $categories=Category::all();
+        return view("product.create")->with("categories",$categories);
     }
 
     /**
@@ -28,13 +31,15 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        Product::validate($request);
+       
+     Product::validate($request);
 
         $newProduct = new Product();
-        $newProduct->setName($request->input('name'));
-        $newProduct->setDescription($request->input('description'));
-        $newProduct->setPrice($request->input('price'));
-        
+        $newProduct->name=$request->input('name');
+        $newProduct->description=$request->input('description');
+        $newProduct->setImage("game.png");
+        $newProduct->price=$request->input('price');
+        $newProduct->category_id=$request->input('category_id');
         $newProduct->save();
 
         if ($request->hasFile('image')) {
@@ -46,6 +51,8 @@ class ProductController extends Controller
             $newProduct->setImage($imageName);
             $newProduct->save();
         }
+        return redirect("/products");
+        
     }
 
     /**

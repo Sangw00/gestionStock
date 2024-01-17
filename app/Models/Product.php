@@ -15,15 +15,17 @@ class Product extends Model
         'price',
     ];
     public static function validate($request)
-    {
-       return $request->validate([
-            "name" => "required|max:255",
-            "description" => "required|min:20",
-            "image" => "required",
-            "price" => "required|int",
-        ]);
-    }
-    public function category()
+{
+    return $request->validate([
+        "name" => "required|max:255",
+        "description" => "required|min:20",
+        "image" => "image",
+        "price" => "required|int",
+        "category_id" => "required|int|exists:categories,id",
+    ]);
+}
+
+public function category()
     {
         return $this->belongsTo(Category::class);
     }
