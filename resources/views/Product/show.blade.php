@@ -1,6 +1,6 @@
 @extends("layouts.home")
 @section("content")
-
-<h1>{{$category->name}}</h1>
+<img assert="{{}}">
+<h1>{{$product->name}}</h1>
 
 @endsection

@@ -19,14 +19,11 @@
                 <td>{{ $product->id }}</td>
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->description }}</td>
-                <td><a href="" class="btn btn-outline-secondary">Edit</a></td>
+                <td><a href="{{ route("product.edit",["id" => $product->id]) }}" class="btn btn-outline-secondary">Edit</a></td>
                 <td><a href="" class="btn btn-outline-secondary">Delete</a></td>
                 <td><a href="" class="btn btn-outline-secondary">Details</a></td>
             </tr>
         @endforeach
         </tbody>
     </table>
-    @error('name')
-  <div class="alert alert-danger">{{ $message }}</div>
-@enderror
 @endsection

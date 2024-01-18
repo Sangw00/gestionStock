@@ -32,26 +32,34 @@ class ProductController extends Controller
     public function store(Request $request)
     {
        
-     Product::validate($request);
-
-        $newProduct = new Product();
-        $newProduct->name=$request->input('name');
-        $newProduct->description=$request->input('description');
-        $newProduct->setImage("game.png");
-        $newProduct->price=$request->input('price');
-        $newProduct->category_id=$request->input('category_id');
-        $newProduct->save();
-
-        if ($request->hasFile('image')) {
-            $imageName = $newProduct->getId().".".$request->file('image')->extension();
-            Storage::disk('public')->put(
-                $imageName,
-                file_get_contents($request->file('image')->getRealPath())
-            );
-            $newProduct->setImage($imageName);
-            $newProduct->save();
+        try {
+            
+            Product::validate($request);
+        
+            $product = new Product();
+            $product->name = $request->input('name');
+            $product->description = $request->input('description');
+        
+            if ($request->hasFile('image')) {
+                $imageName = $request->file('image')->getClientOriginalName();
+        
+                // Use the 'public' disk and specify the 'images' directory within it
+                Storage::disk('public')->put(
+                    'images/' . $imageName,
+                    file_get_contents($request->file('image')->getRealPath())
+                );
+        
+                $product->image = $imageName;
+                $product->price = $request->input('price');
+                $product->category_id = $request->input('category_id');
+                $product->save();
+            }
+        
+            return redirect("/products");
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
-        return redirect("/products");
+        
         
     }
 
@@ -60,7 +68,8 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product= Product::findOrFail($id);
+ return view("products.show")->with("product",$product);
     }
 
     /**
@@ -68,7 +77,11 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $categories=Category::all();
+        $product= Product::findOrFail($id);
+        return view("product.edit",[
+        "product"=>$product,
+        "categories"=>$categories]);
     }
 
     /**
@@ -76,7 +89,27 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product= Product::findOrFail($id);
+        Product::validate($request);
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+    
+        if ($request->hasFile('image')) {
+            $imageName = $request->file('image')->getClientOriginalName();
+    
+            // Use the 'public' disk and specify the 'images' directory within it
+            Storage::disk('public')->put(
+                'images/' . $imageName,
+                file_get_contents($request->file('image')->getRealPath())
+            );
+    
+            $product->image = $imageName;
+            $product->price = $request->input('price');
+            $product->category_id = $request->input('category_id');
+            $product->save();
+        }
+    
+        return redirect("/products");
     }
 
     /**

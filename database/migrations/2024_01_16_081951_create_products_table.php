@@ -17,11 +17,9 @@ return new class extends Migration
             $table->string("name");
             $table->string("description");
             $table->string("image");
-            $table->float("price");
+            $table->decimal('price', 10, 2); // 10 total digits, 2 digits after the decimal point
             $table->unsignedBigInteger("category_id");
             $table->foreign("category_id")->references("id")->on("categories");
-            $table->unsignedBigInteger("user_id");
-            $table->foreign("user_id")->references("id")->on("users");
             $table->timestamps();
         });
     }
