@@ -5,6 +5,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -41,8 +42,10 @@ class ProductController extends Controller
             $product->description = $request->input('description');
         
             if ($request->hasFile('image')) {
-                $imageName = $request->file('image')->getClientOriginalName();
-        
+                $imageName = Image::make($resuest->image->getRealPath())
+                ->resize(300, 200) // Adjust the dimensions as needed
+                ->encode($image->getClientOriginalExtension(), 80); // Adjust the quality as needed
+
                 // Use the 'public' disk and specify the 'images' directory within it
                 Storage::disk('public')->put(
                     'images/' . $imageName,
@@ -69,7 +72,7 @@ class ProductController extends Controller
     public function show(string $id)
     {
         $product= Product::findOrFail($id);
- return view("products.show")->with("product",$product);
+ return view("product.show")->with("product",$product);
     }
 
     /**

@@ -21,7 +21,7 @@
                 <td>{{ $product->description }}</td>
                 <td><a href="{{ route("product.edit",["id" => $product->id]) }}" class="btn btn-outline-secondary">Edit</a></td>
                 <td><a href="" class="btn btn-outline-secondary">Delete</a></td>
-                <td><a href="" class="btn btn-outline-secondary">Details</a></td>
+                <td><a href="{{ route("product.show",["id" => $product->id]) }}" class="btn btn-outline-secondary">Details</a></td>
             </tr>
         @endforeach
         </tbody>
