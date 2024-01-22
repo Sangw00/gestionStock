@@ -19,9 +19,15 @@
                 <td>{{ $category->id }}</td>
                 <td>{{ $category->name }}</td>
                 <td>{{ $category->description }}</td>
-                <td><a href="{{ route("category.edit", ["id" => $category->id]) }}" class="btn btn-outline-secondary">Edit</a></td>
-                <td><a href="{{ route("category.delete", ["id" => $category->id]) }}" class="btn btn-outline-secondary">Delete</a></td>
-                <td><a href="{{ route("category.show", ["id" => $category->id]) }}" class="btn btn-outline-secondary">Details</a></td>
+                <td><a href="{{ route("category.edit", ["id" => $category->id]) }}" class="btn btn-outline-secondary">
+                <span class="material-symbols-outlined">edit</span>
+                </a></td>
+                <td><a href="{{ route("category.delete", ["id" => $category->id]) }}" class="btn btn-outline-secondary">
+                <span class="material-symbols-outlined">delete</span>
+                </a></td>
+                <td><a href="{{ route("category.show", ["id" => $category->id]) }}" class="btn btn-outline-secondary">
+                <span class="material-symbols-outlined">more</span>
+                </a></td>
             </tr>
         @endforeach
         </tbody>

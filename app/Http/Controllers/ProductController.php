@@ -31,40 +31,34 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-       
-        try {
-            
-            Product::validate($request);
-        
-            $product = new Product();
-            $product->name = $request->input('name');
-            $product->description = $request->input('description');
-        
-            if ($request->hasFile('image')) {
-                $imageName = Image::make($resuest->image->getRealPath())
-                ->resize(300, 200) // Adjust the dimensions as needed
-                ->encode($image->getClientOriginalExtension(), 80); // Adjust the quality as needed
+{
+        Product::validate($request);
 
-                // Use the 'public' disk and specify the 'images' directory within it
-                Storage::disk('public')->put(
-                    'images/' . $imageName,
-                    file_get_contents($request->file('image')->getRealPath())
-                );
-        
-                $product->image = $imageName;
-                $product->price = $request->input('price');
-                $product->category_id = $request->input('category_id');
-                $product->save();
-            }
-        
-            return redirect("/products");
-        } catch (\Exception $e) {
-            dd($e->getMessage());
+        $product = new Product();
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName =  md5(microtime()) . basename($image->getClientOriginalName()); // Use a clean filename
+            $imageResized = Image::make($image->getRealPath())
+                ->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode($image->getClientOriginalExtension(), 80);
+            Storage::disk('public')->put('images/' . $imageName, $imageResized->__toString());
+
+            $product->image = $imageName;
         }
-        
-        
-    }
+
+        $product->price = $request->input('price');
+        $product->category_id = $request->input('category_id');
+        $product->save();
+
+        return redirect("/products");
+
+}
+
 
     /**
      * Display the specified resource.
@@ -98,14 +92,13 @@ class ProductController extends Controller
         $product->description = $request->input('description');
     
         if ($request->hasFile('image')) {
-            $imageName = $request->file('image')->getClientOriginalName();
-    
-            // Use the 'public' disk and specify the 'images' directory within it
-            Storage::disk('public')->put(
-                'images/' . $imageName,
-                file_get_contents($request->file('image')->getRealPath())
-            );
-    
+            $image = $request->file('image');
+            $imageName = basename($image->getClientOriginalName()); // Use a clean filename
+            $imageResized = Image::make($image->getRealPath())
+                ->resize(300, 200)
+                ->encode($image->getClientOriginalExtension(), 80);
+            Storage::disk('public')->put('images/' . $imageName, $imageResized->__toString());
+
             $product->image = $imageName;
             $product->price = $request->input('price');
             $product->category_id = $request->input('category_id');
@@ -120,6 +113,7 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Product::Destroy($id);
+        return back();
     }
 }
