@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string("description");
             $table->timestamps();
         });
+        Schema::table("products", function (Blueprint $table) {
+            $table->foreignIdFor(\App\Models\Product::class)->nullable()->constraint()->cascadeOnDelete();
+
+        });
     }
 
     /**

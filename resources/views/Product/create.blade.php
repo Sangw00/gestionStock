@@ -9,22 +9,22 @@
         <div class="card-body">
           <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" required value="{{ old('name') }} >
+            <input type="text" class="form-control" id="name" name="name" required {{ session('name') }} >
           </div>
 
           <div class="form-group">
             <label for="description">Description</label>
-            <input type="text" class="form-control" id="description" name="description" required value="{{ old('description') }} >
+            <input type="text" class="form-control" id="description" name="description" required {{ session('description') }}  >
           </div>
 
           <div class="form-group">
             <label for="image">Image</label>
-            <input type="file" class="form-control" name="image" id="image" accept="image/*" required value="{{ old('image') }} >
+            <input type="file" class="form-control" name="image" id="image" accept="image/*" required {{ session('image') }} >
           </div>
 
           <div class="form-group">
             <label for="price">Price</label>
-            <input type="text" class="form-control" id="price" name="price" required value="{{ old('price') }} >
+            <input type="number" class="form-control" id="price" name="price" required {{ session('price') }} >
           </div>
           @error('price')
               <div class=" text-danger">{{ $message }}</div>
@@ -33,7 +33,7 @@
             <label for="category_id">Category</label>
             <select class="form-select" name="category_id" aria-label=".form-select" required  >
               @foreach($categories as $category)
-                <option value="{{ old('id') }}">{{ $category->name }}</option>
+                <option value="{{$category->id}}">{{ $category->name }}</option>
               @endforeach
             </select>
           </div>

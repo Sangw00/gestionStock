@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -14,7 +15,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products=Product::all();
+        $data=Product::all();
+        $products=ProductResource::collection($data);
         return view("product.index")->with("products",$products);
     }
 
