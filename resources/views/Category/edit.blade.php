@@ -1,7 +1,8 @@
 @extends("layouts.home")
 @section("content")
-<form  method="POST" action="{{route("category.update", ["id" => $category->id])}}">
-  @csrf <!-- Add CSRF token for security -->
+<form  method="POST" action="{{route("category.update", ["category" => $category->id])}}">
+@csrf
+@method('PUT')
   <div class="container">
     <div class="card">
       <div class="card-header bg-secondary text-light">Edit Category</div>

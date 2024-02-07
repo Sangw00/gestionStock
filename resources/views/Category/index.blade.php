@@ -19,13 +19,18 @@
                 <td>{{ $category->id }}</td>
                 <td>{{ $category->name }}</td>
                 <td>{{ $category->description }}</td>
-                <td><a href="{{ route("category.edit", ["id" => $category->id]) }}" class="btn btn-outline-secondary">
+                <td><a href="{{ route("category.edit", ["category" => $category->id]) }}" class="btn btn-outline-secondary">
                 <span class="material-symbols-outlined">edit</span>
                 </a></td>
-                <td><a href="{{ route("category.delete", ["id" => $category->id]) }}" class="btn btn-outline-secondary">
-                <span class="material-symbols-outlined">delete</span>
-                </a></td>
-                <td><a href="{{ route("category.show", ["id" => $category->id]) }}" class="btn btn-outline-secondary">
+                <td>
+                <form method="POST" action="{{route("category.delete", ["category" => $category->id])}}">
+                @csrf
+                @method('DELETE')
+                <button type="submit"  class="btn btn-outline-primary"><a href="{{ route("category.delete", ["category" => $category->id]) }}" >
+                <span class="material-symbols-outlined">delete</span></button>
+                </form>
+                </td>
+                <td><a href="{{ route("category.show", ["category" => $category->id]) }}" class="btn btn-outline-secondary">
                 <span class="material-symbols-outlined">more</span>
                 </a></td>
             </tr>

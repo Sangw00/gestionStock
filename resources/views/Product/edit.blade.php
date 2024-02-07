@@ -1,9 +1,10 @@
 @extends("layouts.home")
 @section("content")
   <form action="{{ route('product.update',["id"=>$product->id]) }}" method="POST" enctype="multipart/form-data">
-    @csrf <!-- Add CSRF token for security -->
-
-    <div class="container">
+  
+  @csrf
+@method('PUT')
+<div class="container">
       <div class="card">
         <div class="card-header bg-secondary text-light">Edit Product</div>
         <div class="card-body">

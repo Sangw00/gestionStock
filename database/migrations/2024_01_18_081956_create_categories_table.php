@@ -18,8 +18,9 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table("products", function (Blueprint $table) {
-            $table->foreignIdFor(\App\Models\Product::class)->nullable()->constraint()->cascadeOnDelete();
-
+            $table->foreignIdFor(\App\Models\Category::class)->nullable()->constraint()->cascadeOnDelete();
+           
+            
         });
     }
 
