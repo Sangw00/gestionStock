@@ -18,13 +18,18 @@ class ProductController extends Controller
      */
     public function index()
 {
-    $data = Product::all();
+    $data = Product::with('category')->get();
+
     $products = ProductResource::collection($data);
+
+
+    
+    //$products = ProductResource::collection(Product::all()->with('category')->get());
     return response()->json([
         "title" => "touts le produits",
         "status"=>200,
         "body" => $products
-    ],200);
+    ]);
 }
 
 
@@ -42,7 +47,7 @@ class ProductController extends Controller
     public function store(Request $request)
     
     {
-        try {
+       
             Product::validate($request);
         
             $product = new Product();
@@ -66,10 +71,11 @@ class ProductController extends Controller
             $product->category_id = $request->input('category_id');
             $product->save();
             
-            return response()->json(["status" => 200]);
-        } catch (\Exception $e) {
-            return response()->json(["error" => $e->getMessage()], 500); // Return the error message with a 500 status code
-        }
+            return response()->json([
+                "message" => "success",
+                "status"=>200,
+                
+            ]);
     }
     
 
@@ -78,7 +84,13 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data= Product::findOrFail($id);
+        $product= new ProductResource($data);
+        return response()->json([
+            "title" => "detail de produit",
+            "status"=>200,
+            "body" => $product
+        ]);
     }
 
     /**
@@ -94,7 +106,29 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product= Product::findOrFail($id);
+        Product::validate($request);
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+    
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = basename($image->getClientOriginalName()); // Use a clean filename
+            $imageResized = Image::make($image->getRealPath())
+                ->resize(300, 200)
+                ->encode($image->getClientOriginalExtension(), 80);
+            Storage::disk('public')->put('images/' . $imageName, $imageResized->__toString());
+
+            $product->image = $imageName;
+            $product->price = $request->input('price');
+            $product->category_id = $request->input('category_id');
+            $product->save();
+            return response()->json([
+                "message" => "success",
+                "status"=>200,
+                
+            ]);
+        }
     }
 
     /**
@@ -102,6 +136,11 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Product::Destroy($id);
+        return response()->json([
+            "message" => "success",
+            "status"=>200,
+            
+        ]);
     }
 }

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Http\Resources\CategoryResource;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -12,7 +15,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+    $data = Category::all();
+    $categories = CategoryResource::collection($data);
+    return response()->json([
+        "title" => "touts le categories",
+        "status"=>200,
+        "body" => $categories,
+    ]);
     }
 
     /**
@@ -28,15 +37,36 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $category=Category::validate($request);
+         Category::create($category);
+         return response()->json([
+            "message" => "success",
+            "status"=>200,
+            
+        ]);
     }
-
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+
+        $category=Category::findOrFail($id);
+    $products = DB::table('products')
+    ->join('categories', 'products.category_id', '=', 'categories.id')
+    ->where('categories.id', $category->id)
+    ->select('products.*')
+    ->get();
+            return response()->json([
+                "title" => "produit par category",
+            "status"=>200,
+                'category' => $category->name,
+                "number of products" =>$products->count(),
+                'all products' =>$products,
+            ]);
+        
+        
+       
     }
 
     /**
@@ -52,7 +82,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category=Category::findOrFail($id);
+        $request=Category::validate($request);
+        $category->fill( $request);
+        $category->save();
+        return response()->json([
+            "message" => "success",
+            "status"=>200,
+            
+        ]);
     }
 
     /**
@@ -60,6 +98,11 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Category::Destroy($id);
+        return response()->json([
+            "message" => "success",
+            "status"=>200,
+            
+        ]);
     }
 }
