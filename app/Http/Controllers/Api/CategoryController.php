@@ -17,10 +17,15 @@ class CategoryController extends Controller
     {
     $data = Category::all();
     $categories = CategoryResource::collection($data);
+    $products = DB::table('products')
+    ->join('categories', 'products.category_id', '=', 'categories.id')
+    ->where('categories.id', "products.id")
+    ->select('products.*')
+    ->count();
     return response()->json([
         "title" => "touts le categories",
         "status"=>200,
-        "body" => $categories,
+        "data" => $categories,
     ]);
     }
 
