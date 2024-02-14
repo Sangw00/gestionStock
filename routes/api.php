@@ -20,7 +20,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 Route::post('/register', [RegisterController::class, 'create']);
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/login', [LoginController::class, 'logout']);
+Route::post('/logout', [LoginController::class, 'logout']);
 Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::get("/products",[App\Http\Controllers\Api\ProductController::class, 'index']);
     Route::post("/products/new/store",[App\Http\Controllers\Api\ProductController::class, 'store']);
