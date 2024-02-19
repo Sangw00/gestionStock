@@ -1,4 +1,17 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/js/app.js": "/js/app.js?id=b2aa1c400637121bd81e334c06de846d",
+    "/css/app.css": "/css/app.css?id=37724a79a7e6b543d6a0488c27278973",
+    "/favicon.ico": "/favicon.ico?id=d41d8cd98f00b204e9800998ecf8427e",
+    "/fonts/vendor/font-awesome/fontawesome-webfont.eot": "/fonts/vendor/font-awesome/fontawesome-webfont.eot?id=016fa45033a942ffecadc970f22fe41b",
+    "/fonts/vendor/font-awesome/fontawesome-webfont.svg": "/fonts/vendor/font-awesome/fontawesome-webfont.svg?id=912ec66d7572ff821749319396470bde",
+    "/fonts/vendor/font-awesome/fontawesome-webfont.ttf": "/fonts/vendor/font-awesome/fontawesome-webfont.ttf?id=ecebce3ab95b6640919b6b2f66b44bf8",
+    "/fonts/vendor/font-awesome/fontawesome-webfont.woff": "/fonts/vendor/font-awesome/fontawesome-webfont.woff?id=5e0388aeae16469773b8cf74e2d6304b",
+    "/fonts/vendor/font-awesome/fontawesome-webfont.woff2": "/fonts/vendor/font-awesome/fontawesome-webfont.woff2?id=d829b32251e423806ca9c8aa640b7dcf",
+    "/images/logo.svg": "/images/logo.svg?id=06e733283fa43d1dd57738cfc409adbd",
+    "/index.html": "/index.html?id=852f524763094f0907f08e3715ba38e4",
+    "/index.php": "/index.php?id=3b58bff18126a61c142cc576457c82a6",
+    "/js/chunks/resources_front_node_modules_web-vitals_dist_web-vitals_js.js": "/js/chunks/resources_front_node_modules_web-vitals_dist_web-vitals_js.js?id=c7052d0c19d9805b1d58824110e2fbf3",
+    "/manifest.json": "/manifest.json?id=d9d975cebe2ec20b6c652e1e4c12ccf0",
+    "/mix-manifest.json": "/mix-manifest.json?id=0bfb7fa02c8b658439b8cbebc1e49084",
+    "/robots.txt": "/robots.txt?id=fa1ded1ed7c11438a9b0385b1e112850"
 }

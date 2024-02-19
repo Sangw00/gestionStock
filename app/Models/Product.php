@@ -14,16 +14,6 @@ class Product extends Model
         'image',
         'price',
     ];
-    public static function validate($request)
-{
-    return $request->validate([
-        "name" => "required|max:255",
-        "description" => "required|min:20",
-        "image" => "image",
-        "price" => "required|numeric",
-        "category_id" => "required|int|exists:categories,id",
-    ]);
-}
 
 public function category()
     {

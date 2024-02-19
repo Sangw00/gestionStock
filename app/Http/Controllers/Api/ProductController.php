@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use App\Http\Resources\ProductResource;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -23,13 +24,14 @@ class ProductController extends Controller
     $products = ProductResource::collection($data);
 
 
+
     
     //$products = ProductResource::collection(Product::all()->with('category')->get());
-    return response()->json([
-        "title" => "touts le produits",
-        "status"=>200,
-        "body" => $products
-    ]);
+     return response()->json([
+         "title" => "touts le produits",
+         "status"=>200,
+         "body" => $products
+     ]);
 }
 
 
@@ -44,11 +46,9 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     
     {
-       
-            Product::validate($request);
         
             $product = new Product();
             $product->name = $request->input('name');
@@ -104,10 +104,9 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductRequest $request, string $id)
     {
         $product= Product::findOrFail($id);
-        Product::validate($request);
         $product->name = $request->input('name');
         $product->description = $request->input('description');
     

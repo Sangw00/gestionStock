@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         $products=Product::all();
-        return view("product.index")->with("products",$products);
+        return Inertia::render("Products",["products",$products]);
     }
 
     /**
@@ -31,9 +31,9 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
 {
-        Product::validate($request);
+    
 
         $product = new Product();
         $product->name = $request->input('name');

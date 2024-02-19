@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Resources\CategoryResource;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -40,10 +41,9 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-         $category=Category::validate($request);
-         Category::create($category);
+         Category::create($request);
          return response()->json([
             "message" => "success",
             "status"=>200,
@@ -85,10 +85,9 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryRequest $request, string $id)
     {
         $category=Category::findOrFail($id);
-        $request=Category::validate($request);
         $category->fill( $request);
         $category->save();
         return response()->json([
