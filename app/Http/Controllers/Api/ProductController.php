@@ -30,7 +30,7 @@ class ProductController extends Controller
      return response()->json([
          "title" => "touts le produits",
          "status"=>200,
-         "body" => $products
+         "products" => $products
      ]);
 }
 
