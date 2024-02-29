@@ -46,38 +46,42 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductRequest $request)
     
-    {
+public function store(ProductRequest $request)
+{
+    try {
+        $product = new Product();
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+    
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName =  md5(microtime()) . '.' . $image->getClientOriginalExtension(); // Use a clean filename
+            $imageResized = Image::make($image->getRealPath())
+                ->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode($image->getClientOriginalExtension(), 80);
+            Storage::disk('public')->put('images/' . $imageName, $imageResized->__toString());
+    
+            $product->image = $imageName;
+        }
+    
+        $product->price = $request->input('price');
+        $product->category_id = $request->input('category_id');
+        $product->save();
         
-            $product = new Product();
-            $product->name = $request->input('name');
-            $product->description = $request->input('description');
-        
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $imageName =  md5(microtime()) . '.' . $image->getClientOriginalExtension(); // Use a clean filename
-                $imageResized = Image::make($image->getRealPath())
-                    ->resize(300, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                    })
-                    ->encode($image->getClientOriginalExtension(), 80);
-                Storage::disk('public')->put('images/' . $imageName, $imageResized->__toString());
-        
-                $product->image = $imageName;
-            }
-        
-            $product->price = $request->input('price');
-            $product->category_id = $request->input('category_id');
-            $product->save();
-            
-            return response()->json([
-                "message" => "success",
-                "status"=>200,
-                
-            ]);
+        return response()->json([
+            "message" => "success",
+            "status"=>200,
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            "message" => "error",
+            "error" => $e->getMessage(),
+        ], 500);
     }
-    
+}
 
     /**
      * Display the specified resource.
@@ -89,7 +93,7 @@ class ProductController extends Controller
         return response()->json([
             "title" => "detail de produit",
             "status"=>200,
-            "body" => $product
+            "product" => $product
         ]);
     }
 

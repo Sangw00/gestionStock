@@ -26,7 +26,7 @@ class CategoryController extends Controller
     return response()->json([
         "title" => "touts le categories",
         "status"=>200,
-        "data" => $categories,
+        "categories" => $categories,
     ]);
     }
 
@@ -43,7 +43,9 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-         Category::create($request);
+        $validatedData = $request->validated(); // Retrieve validated data from the request
+
+        Category::create($validatedData);
          return response()->json([
             "message" => "success",
             "status"=>200,
@@ -66,8 +68,8 @@ class CategoryController extends Controller
                 "title" => "produit par category",
             "status"=>200,
                 'category' => $category->name,
-                "number of products" =>$products->count(),
-                'all products' =>$products,
+                "number" =>$products->count(),
+                'products' =>$products,
             ]);
         
         
@@ -85,17 +87,27 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryRequest $request, string $id)
+    public function update(CategoryRequest $request, $id)
     {
-        $category=Category::findOrFail($id);
-        $category->fill( $request);
-        $category->save();
+        $category = Category::where('id',$id)->first();
+        //$validatedData = $request->validated();
+        //$category->fill($validatedData);
+      /* $category->name =$request->name ;
+       $category->description =$request->description ;
+
+        $category->save();*/
+        $category->update([
+            "name"=>$request->name,
+            "description"=>$request->description
+        ]);
+
+    
         return response()->json([
             "message" => "success",
-            "status"=>200,
-            
+            "status" => 200,
         ]);
     }
+    
 
     /**
      * Remove the specified resource from storage.
