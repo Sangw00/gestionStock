@@ -39,32 +39,32 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-//     public function login(Request $request)
-//     {
-//         $fields = $request->validate([
-//             'email' => 'required|string',
-//             'password' => 'required|string',
-//         ]);
-//         $user= User::where('email', $fields["email"])->firstOrFail();
-//         if ($user || Hash::check($fields["password"], $user->password)) {
-//         $token= $user->createToken("mytoken");
-//             return response()->json([
-//                 "message" => "success",
-//                 "status"=>200,
-//                 "token"=>$token->plainTextToken,
+    public function login(Request $request)
+    {
+        $fields = $request->validate([
+            'email' => 'required|string',
+            'password' => 'required|string',
+        ]);
+        $user= User::where('email', $fields["email"])->firstOrFail();
+        if ($user || Hash::check($fields["password"], $user->password)) {
+        $token= $user->createToken("mytoken");
+            return response()->json([
+                "message" => "success",
+                "status"=>200,
+                "token"=>$token->plainTextToken,
 
                 
                 
-//             ]);
-//         }
-//     }
-//     public function logout(Request $request)
-//     {
-//    auth()->user(tokens)->delete();
-//             return response()->json([
-//                 "message" => "success",
-//                 "status"=>200,        
-//                 ]);
-//         }
+            ]);
+        }
+    }
+    public function logout(Request $request)
+    {
+   auth()->user(tokens)->delete();
+            return response()->json([
+                "message" => "success",
+                "status"=>200,        
+                ]);
+        }
    
 }
