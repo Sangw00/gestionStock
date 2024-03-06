@@ -50,6 +50,7 @@ class LoginController extends Controller
         $token= $user->createToken("mytoken");
             return response()->json([
                 "message" => "success",
+                "name"=> $user->name,
                 "status"=>200,
                 "token"=>$token->plainTextToken,
 
@@ -59,12 +60,14 @@ class LoginController extends Controller
         }
     }
     public function logout(Request $request)
-    {
-   auth()->user(tokens)->delete();
-            return response()->json([
-                "message" => "success",
-                "status"=>200,        
-                ]);
-        }
+{
+    $request->user()->currentAccessToken()->delete();
+
+    return response()->json([
+        "message" => "success",
+        "status" => 200,
+    ]);
+}
+
    
 }
