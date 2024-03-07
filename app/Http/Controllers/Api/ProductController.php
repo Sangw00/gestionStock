@@ -113,7 +113,7 @@ public function store(ProductRequest $request)
         $product= Product::findOrFail($id);
         $product->name = $request->input('name');
         $product->description = $request->input('description');
-    
+        
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = basename($image->getClientOriginalName()); // Use a clean filename
